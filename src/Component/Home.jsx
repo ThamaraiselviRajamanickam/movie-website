@@ -38,46 +38,71 @@ export default function Home() {
   const handleSearch = () => {
     fetchData(searchTerm);
   };
+
   return (
     <>
-     <Input
-        type="text"
-        placeholder="Search Movie Name"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        style={{ marginTop: "50px", marginBottom: "20px" ,marginLeft:"150px", marginRight:"35px"}}
-        width={700}
-      />
-      <Button variant="solid" colorScheme="blue" onClick={handleSearch}>
-        Search
-      </Button>
+      <Flex
+        direction={{ base: "column", sm: "row" }}  // Stack vertically on smaller screens
+        align="center"
+        justify="center"
+        my={10}
+        wrap="wrap"  // Allow elements to wrap on smaller screens
+      >
+        <Input
+          type="text"
+          placeholder="Search Movie Name"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          mb={{ base: 4, sm: 0 }}  // Margin bottom for smaller screens, remove margin on larger screens
+          width={{ base: "90%", sm: "70%", md: "50%" }}  // Responsive width
+        />
+        <Button
+          variant="solid"
+          colorScheme="blue"
+          onClick={handleSearch}
+          ml={{ base: 0, sm: 2 }}  // Margin left on larger screens
+          width={{ base: "90%", sm: "auto" }}  // Responsive width
+        >
+          Search
+        </Button>
+      </Flex>
 
-      {movies.map((movie) => (
-        <Card key={movie.id} direction="row" overflow="hidden" variant="outline" m={5}>
-          <Flex>
-            <Image
-              src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-              alt={movie.title}
-              boxSize="200px"
-              objectFit="cover"
-              height={300}
-              width={300}
-            />
-            <Box p={5}>
+      <Flex
+        direction={{ base: "column", md: "row" }}
+        wrap="wrap"
+        justify="center"
+      >
+        {movies.map((movie) => (
+          <Card
+            key={movie.id}
+            direction="row"
+            overflow="hidden"
+            variant="outline"
+            m={5}
+            width={{ base: "90%", sm: "45%", md: "30%" }}
+          >
+            <Flex direction="column" align="center" p={5}>
+              <Image
+                src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                alt={movie.title}
+                boxSize="200px"
+                objectFit="cover"
+                height="300px"
+                width="300px"
+                mb={4}
+              />
               <CardBody>
                 <Stack spacing="3">
                   <Heading size="md">{movie.title}</Heading>
                   <Text>Release Date: {movie.release_date}</Text>
                   <Text>Rating: {movie.vote_average}</Text>
-
                   <Text>{movie.overview}</Text>
-                  
                 </Stack>
               </CardBody>
-            </Box>
-          </Flex>
-        </Card>
-      ))}
+            </Flex>
+          </Card>
+        ))}
+      </Flex>
     </>
   );
 }
